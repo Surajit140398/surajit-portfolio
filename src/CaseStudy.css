@@ -298,22 +298,174 @@
   color: var(--accent);
 }
 
+/* =============================================
+   CASE STUDY — MOBILE RESPONSIVE
+   ============================================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .cs-hero {
+    padding: 120px 6vw 60px;
+  }
+
+  .cs-section {
+    padding: 80px 6vw;
+  }
+
+  .project-navigation {
+    padding: 60px 6vw;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
+  /* Hero */
+  .cs-hero {
+    min-height: auto;
+    padding: 110px 6vw 60px;
+    align-items: flex-start;
+  }
+
   .cs-hero h1 {
-    font-size: clamp(40px, 10vw, 70px);
+    font-size: clamp(36px, 11vw, 64px);
+    letter-spacing: -2px;
+    margin-top: 14px;
   }
-  
+
+  .cs-subtitle {
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: 14px;
+  }
+
+  .cs-hero-apps {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+    font-size: 11px;
+  }
+
+  .cs-hero-apps .plus {
+    display: none;
+  }
+
+  .cs-hero-apps span {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--surface);
+  }
+
+  /* Sections */
+  .cs-section {
+    padding: 60px 6vw;
+  }
+
+  .cs-section h2 {
+    font-size: clamp(32px, 10vw, 56px);
+    letter-spacing: -1.5px;
+  }
+
+  .section-text {
+    font-size: 16px;
+    margin-top: 20px;
+    max-width: 100%;
+  }
+
+  /* Device Mockups */
+  .cs-device-wrapper {
+    padding: 30px 0;
+  }
+
   .device-phone {
-    width: 280px;
-    height: 580px;
+    width: min(260px, 70vw);
+    height: auto;
+    aspect-ratio: 9/19.5;
+    border-radius: 30px;
+    border-width: 8px;
   }
-  
+
   .device-desktop {
     width: 100%;
+    border-radius: 10px;
+    border-top-width: 16px;
+  }
+
+  .device-tablet {
+    width: min(340px, 85vw);
+    height: auto;
+    aspect-ratio: 3/4;
+    border-radius: 20px;
+    border-width: 10px;
+  }
+
+  /* Ecosystem Diagram */
+  .ecosystem-diagram {
+    padding: 40px 0;
+  }
+
+  .diagram-node {
+    padding: 14px 24px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .diagram-line {
+    height: 40px;
+  }
+
+  /* Gallery */
+  .project-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .gallery-title {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  /* Tech List */
+  .tech-list {
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .tech-list li {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  /* Project Navigation */
+  .project-navigation {
+    padding: 60px 6vw;
+  }
+
+  .next-link h2 {
+    font-size: clamp(28px, 8vw, 48px);
+    letter-spacing: -1px;
+  }
+
+  .nav-top {
+    margin-bottom: 48px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .cs-hero h1 {
+    font-size: clamp(30px, 12vw, 48px);
+  }
+
+  .cs-hero-apps span {
+    font-size: 10px;
+    padding: 5px 12px;
   }
 
   .project-gallery {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 }
 
