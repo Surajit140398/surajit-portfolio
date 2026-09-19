@@ -128,8 +128,8 @@
     45deg,
     transparent,
     transparent 10px,
-    rgba(124, 58, 237, 0.03) 10px,
-    rgba(124, 58, 237, 0.03) 20px
+    rgba(215, 25, 32, 0.02) 10px,
+    rgba(215, 25, 32, 0.02) 20px
   );
 }
 
@@ -162,7 +162,7 @@
 .diagram-node.primary {
   border-color: var(--accent);
   color: var(--accent);
-  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
+  box-shadow: 0 10px 30px rgba(215, 25, 32, 0.08);
 }
 
 .diagram-line {
@@ -263,7 +263,7 @@
 .back-link {
   font-size: 14px;
   font-weight: 600;
-  color: #888;
+  color: #CCCCCC;
   transition: color 0.3s ease;
 }
 
@@ -280,9 +280,9 @@
 
 .next-label {
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 4px;
-  color: #888;
+  color: #CCCCCC;
   margin-bottom: 20px;
 }
 

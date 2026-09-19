@@ -1,8 +1,6 @@
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Sun, Moon } from "lucide-react";
-import { useTheme } from "../context/ThemeContext";
 
 export default function Navigation() {
   const [hoveredLink, setHoveredLink] = useState(null);
@@ -10,7 +8,6 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -20,7 +17,7 @@ export default function Navigation() {
     { name: "Contact", href: "#contact" }
   ];
 
-  // Active section tracking for Home page
+  // Active section observer on scroll
   useEffect(() => {
     if (location.pathname !== "/") {
       setActiveSection("");
@@ -57,7 +54,7 @@ export default function Navigation() {
   const handleNavigation = (e, name, href) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    
+
     if (href === "/") {
       if (location.pathname === "/") {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -81,91 +78,111 @@ export default function Navigation() {
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         className="navbar"
-        initial={{ y: -100, opacity: 0 }}
+        initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{ background: location.pathname !== "/" ? "rgba(10, 10, 10, 0.9)" : undefined }}
       >
-        <div className="brand" onClick={(e) => handleNavigation(e, "Home", "/")} style={{cursor: "pointer"}}>
-          SM<span>.</span>
+        <div
+          className="brand"
+          onClick={(e) => handleNavigation(e, "Home", "/")}
+          role="button"
+          tabIndex={0}
+          aria-label="Go to top"
+          onKeyDown={(e) => e.key === "Enter" && handleNavigation(e, "Home", "/")}
+        >
+          <span className="brand-dot-lead">●</span>
+          <span className="brand-text">SURAJIT</span>
         </div>
 
-        <div className="nav-links" onMouseLeave={() => setHoveredLink(null)}>
-          {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href}
-              onClick={(e) => handleNavigation(e, link.name, link.href)}
-              onMouseEnter={() => setHoveredLink(link.name)}
-              style={{ position: "relative", color: activeSection === link.name ? "var(--text-h)" : undefined }}
-            >
-              {link.name}
-              {(hoveredLink === link.name || activeSection === link.name) && (
-                <motion.div
-                  layoutId="nav-hover"
-                  className="nav-hover-underline"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  style={{
-                    position: "absolute",
-                    bottom: -4,
-                    left: 0,
-                    right: 0,
-                    height: 1,
-                    background: "var(--text-h)"
-                  }}
-                />
-              )}
-            </a>
-          ))}
+        <div className="nav-links-wrapper">
+          <div className="nav-links" onMouseLeave={() => setHoveredLink(null)}>
+            {[
+              { name: "HOME", href: "/" },
+              { name: "ABOUT", href: "#about" },
+              { name: "WORK", href: "#projects" },
+              { name: "SKILLS", href: "#tools" },
+              { name: "CONTACT", href: "#contact" }
+            ].map((link, idx, arr) => {
+              const isActive = activeSection.toUpperCase() === link.name || (link.name === "WORK" && activeSection === "Projects") || (link.name === "SKILLS" && activeSection === "Tools");
+              return (
+                <React.Fragment key={link.name}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNavigation(e, link.name, link.href)}
+                    onMouseEnter={() => setHoveredLink(link.name)}
+                    className={`nav-link ${isActive ? "active" : ""}`}
+                  >
+                    <span className="nav-link-text">{link.name}</span>
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-active-pill"
+                        className="nav-active-indicator"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </a>
+                  {idx < arr.length - 1 && <span className="nav-dot-sep">-</span>}
+                </React.Fragment>
+              );
+            })}
+          </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-          <button 
-            onClick={toggleTheme} 
-            style={{ background: "transparent", color: "var(--text)", display: "flex", alignItems: "center", justifyContent: "center" }}
-            aria-label="Toggle theme"
+        <div className="nav-actions">
+          <a
+            href="#contact"
+            className="nav-cta-pill"
+            onClick={(e) => handleNavigation(e, "CONTACT", "#contact")}
           >
-            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
+            <span>Let's Talk</span>
+            <span className="nav-cta-arrow">↗</span>
+          </a>
 
-          <button 
-            className="menu-button" 
+          <button
+            className="menu-button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMobileMenuOpen}
           >
-            {isMobileMenuOpen ? "✕" : "☰"}
+            <span className="menu-btn-icon">{isMobileMenuOpen ? "✕" : "☰"}</span>
           </button>
         </div>
       </motion.nav>
 
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div 
+          <motion.div
             className="mobile-menu-overlay"
-            initial={{ opacity: 0, y: "-100%" }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "-100%" }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="mobile-nav-links">
               {navLinks.map((link, index) => (
-                <motion.a 
+                <motion.a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavigation(e, link.name, link.href)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index, duration: 0.4 }}
-                  style={{ color: activeSection === link.name ? "var(--accent)" : undefined }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.08 * index, duration: 0.4 }}
+                  className={`mobile-nav-link ${activeSection === link.name ? "active" : ""}`}
                 >
-                  {link.name}
+                  <span className="mobile-link-index">0{index + 1}</span>
+                  <span className="mobile-link-name">{link.name}</span>
                 </motion.a>
               ))}
+            </div>
+
+            <div className="mobile-menu-footer">
+              <p className="mobile-footer-tag">SURAJIT MONDAL · 2026</p>
+              <a href="mailto:surajit140398@gmail.com" className="mobile-contact-link">
+                surajit140398@gmail.com
+              </a>
             </div>
           </motion.div>
         )}

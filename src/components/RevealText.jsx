@@ -14,21 +14,20 @@ export default function RevealText({ children, elementType: Element = "div", cla
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
-    gsap.set(elements, { y: 50, opacity: 0, filter: "blur(4px)" });
+    gsap.set(elements, { y: 35, opacity: 0 });
 
     const ctx = gsap.context(() => {
       gsap.to(elements, {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top 85%",
-          toggleActions: "play reverse play reverse"
+          toggleActions: "play none none reverse"
         },
         y: 0,
         opacity: 1,
-        filter: "blur(0px)",
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power3.out",
+        duration: 0.9,
+        stagger: 0.1,
+        ease: "power2.out",
       });
     }, containerRef);
 

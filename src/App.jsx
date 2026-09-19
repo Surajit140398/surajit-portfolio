@@ -24,17 +24,20 @@ function App() {
         position="bottom-right" 
         toastOptions={{
           style: {
-            background: 'var(--surface)',
-            color: 'var(--text)',
-            border: '1px solid var(--border)',
-            fontFamily: 'monospace'
+            background: '#FFFFFF',
+            color: '#171717',
+            border: '1px solid #E8E8E8',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
+            fontFamily: 'var(--sans)',
+            fontSize: '13px',
+            fontWeight: 500
           }
         }} 
       />
       <Preloader isLoaded={isLoaded} onComplete={() => setIsLoaded(true)} />
       
       {isLoaded && (
-        <>
+        <SmoothScroll>
           <Cursor />
           <Navigation />
           <WhatsAppButton />
@@ -46,7 +49,7 @@ function App() {
               <Route path="/projects/ambition-aqua-biotech" element={<AmbitionAqua />} />
             </Routes>
           </AnimatePresence>
-        </>
+        </SmoothScroll>
       )}
     </>
   );
